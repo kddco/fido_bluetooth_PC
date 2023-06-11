@@ -10,7 +10,7 @@ root = tk.Tk()
 username = tk.StringVar()
 username.set("Username:")
 status = tk.StringVar()
-status.set("Status:")
+status.set("Status:disconnection")
 token = tk.StringVar()
 token.set("Token:")
 
@@ -25,3 +25,4 @@ button = tk.Button(root, text="Click me", command=button_clicked)
 button.pack()
 
 root.mainloop()
+

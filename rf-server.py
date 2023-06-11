@@ -5,7 +5,9 @@ import base64
 import binascii
 
 token_queue = queue.Queue()  # 全域變數，用來儲存 token
-
+def save_string_to_file(filename, content):
+    with open(filename, "w") as file:
+        file.write(content)
 def handle_client(sock, client_info):
     print("Accepted connection from", client_info)
     try:
@@ -20,11 +22,17 @@ def handle_client(sock, client_info):
             except binascii.Error:
                 decoded_data = data_str  # 直接使用原始數據
             print("Received", decoded_data)
+            filename = "FromPhoneMSG.txt"
+            content = decoded_data
+            save_string_to_file(filename, content)
             
     except OSError:
         pass
 
     print(f"Disconnected from {client_info}.")
+
+
+
     sock.close()
 
 
