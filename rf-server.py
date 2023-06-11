@@ -6,8 +6,9 @@ import binascii
 
 token_queue = queue.Queue()  # 全域變數，用來儲存 token
 def save_string_to_file(filename, content):
-    with open(filename, "w") as file:
+    with open(filename, "w+") as file:
         file.write(content)
+        file.close()
 def handle_client(sock, client_info):
     print("Accepted connection from", client_info)
     try:
