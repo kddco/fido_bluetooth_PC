@@ -4,7 +4,6 @@ import queue
 import base64
 import binascii
 
-token_queue = queue.Queue()  # Global variable to store tokens
 
 def save_string_to_file(filename, content):
     with open(filename, "w+") as file:
@@ -21,7 +20,7 @@ def handle_client(sock, client_info):
             if len(data) > 10:
                 try:
                     decoded_data = base64.b64decode(data.decode('utf-8'))  # Perform base64 decoding
-                    token_queue.put(decoded_data)  # Put decoded_data into the queue
+
                 except binascii.Error:
                     decoded_data = data  # Use original data if decoding fails
                 
@@ -29,11 +28,10 @@ def handle_client(sock, client_info):
                 print("Received", decoded_data_str)
                 filename = "FromPhoneMSG.txt"
                 save_string_to_file(filename, decoded_data_str)
+                
             else:
                 data_str = data.decode('utf-8')  # Convert bytes to string
                 print("Received", data_str)
-                filename = "FromPhoneMSG.txt"
-                save_string_to_file(filename, data_str)
                 
     except OSError:
         pass
@@ -52,11 +50,6 @@ while True:
     client_sock, client_info = server_sock.accept()
     client_thread = threading.Thread(target=handle_client, args=(client_sock, client_info))
     client_thread.start()
-
-    # Get tokens in the main thread
-    while not token_queue.empty():
-        token = token_queue.get()
-        print("Token from client:", token)
 
 server_sock.close()
 print("All done.")
