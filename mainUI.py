@@ -3,6 +3,20 @@ import tkinter as tk
 import subprocess
 import threading
 import aes_decrypt
+def removenotifiyflag():
+    import os
+
+    file_path = "notification.txt"
+
+    try:
+        os.remove(file_path)
+        print(f"The file '{file_path}' has been successfully removed.")
+    except FileNotFoundError:
+        print(f"File '{file_path}' does not exist.")
+    except PermissionError:
+        print(f"Permission denied. Unable to remove the file '{file_path}'.")
+    except Exception as e:
+        print(f"An error occurred while trying to remove the file '{file_path}': {str(e)}")
 
 
 def UpdateUI(status, token, username):
@@ -30,6 +44,7 @@ def check_rfserver_status(root, status, token, username):
             # 如果有訊息，調用 UpdateUI 函數
             if message == "File saved":
                 UpdateUI(status, token, username)
+                removenotifiyflag()
     except FileNotFoundError:
         pass
     # 每秒檢查一次
@@ -54,7 +69,7 @@ token_label.pack()
 
 button = tk.Button(root, text="Click me", command=lambda: threading.Thread(target=rfserver).start())
 button.pack()
-
+removenotifiyflag()
 # 開始檢查 rfserver 的狀態
 check_rfserver_status(root, status, token, username)
 
