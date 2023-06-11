@@ -3,6 +3,7 @@ import threading
 import queue
 import base64
 import binascii
+import queue
 
 
 def save_string_to_file(filename, content):
@@ -28,6 +29,8 @@ def handle_client(sock, client_info):
                 print("Received", decoded_data_str)
                 filename = "FromPhoneMSG.txt"
                 save_string_to_file(filename, decoded_data_str)
+                message_queue.put("File saved")
+
                 
             else:
                 data_str = data.decode('utf-8')  # Convert bytes to string
