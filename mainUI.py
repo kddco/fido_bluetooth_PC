@@ -3,6 +3,10 @@ import tkinter as tk
 import threading
 import aes_decrypt
 import subprocess
+def stopsshforward():
+    command = 'kill $(pgrep -f "ssh -L 8888:140.125.32.19:7777 root@140.125.32.19 -N -f -v")'
+    # 使用 shell=True 来允许shell语法
+    subprocess.run(command, shell=True)
 def removenotifiyflag():
     import os
 
@@ -73,6 +77,7 @@ token_label.pack()
 button = tk.Button(root, text="Click me", command=lambda: threading.Thread(target=rfserver).start())
 button.pack()
 removenotifiyflag()
+stopsshforward()
 # 開始檢查 rfserver 的狀態
 check_rfserver_status(root, status, token, username)
 
