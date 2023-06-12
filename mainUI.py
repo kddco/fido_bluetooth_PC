@@ -1,8 +1,8 @@
 # 檔案A
 import tkinter as tk
-import subprocess
 import threading
 import aes_decrypt
+import subprocess
 def removenotifiyflag():
     import os
 
@@ -21,6 +21,8 @@ def removenotifiyflag():
 
 def UpdateUI(status, token, username):
     print("Updating UI...")
+    command = "ssh -L 8888:140.125.32.19:7777 root@140.125.32.19 -N -f -v"
+    subprocess.Popen(command, shell=True)
     import loadFromPhoneMSG
     encrypted_hex = loadFromPhoneMSG.getencrypted()
     ivhex = loadFromPhoneMSG.getivhexData()
@@ -29,6 +31,7 @@ def UpdateUI(status, token, username):
     status.set(f"Status: Connection")
     token.set(f"Token: {tokenvalue}")
     username.set(f"Username: myid")
+
 
 
 def rfserver():
